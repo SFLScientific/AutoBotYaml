@@ -11,7 +11,7 @@ FALLBACK_TEAM="QA"
 PM_TEAM="ProjectManagers"
 
 # name of file to write to
-YAML_FILE="bot.yml"
+YAML_FILE=".github/auto_assign.yml"
 
 
 
