@@ -1,5 +1,8 @@
 #!/bin/bash -l
 
+GITHUB_TOKEN=$1
+echo $GITHUB_TOKEN
+
 # organization
 ORG="SFLScientific"
 # QA team and fallback QA team
@@ -17,7 +20,6 @@ YAML_FILE=".github/auto_assign.yml"
 
 # make 2 members.json files
 function get_members(){
-GITHUB_TOKEN=$(./print_token)
 
 URL="https://api.github.com/orgs/$1/teams/$2/members"
 
@@ -32,11 +34,11 @@ GOT_QA_TEAM=$?
 if [ $GOT_QA_TEAM -eq 0 ]; then
     rm members.json
     URL="https://api.github.com/orgs/$1/teams/$3/members"
-    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python -mjson.tool > /tmp/members.json
+    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > /tmp/members.json
     echo "{}" > /tmp/pm_members.json
 else
     URL="https://api.github.com/orgs/$1/teams/$3/members"
-    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python -mjson.tool > /tmp/pm_members.json
+    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > /tmp/pm_members.json
 fi
 
 

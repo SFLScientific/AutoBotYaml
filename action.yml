@@ -4,3 +4,5 @@ description: "sets QA group in autobot yaml file"
 runs:
   using: 'docker'
   image: 'Dockerfile'
+  args:
+    - ${{ inputs.token }}
