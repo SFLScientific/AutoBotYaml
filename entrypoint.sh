@@ -26,7 +26,7 @@ URL="https://api.github.com/orgs/$1/teams/$2/members"
 echo $URL
 
 # TODO if failed us QA as teams
-curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python -mjson.tool > members.json
+curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL -o members.json
 
 cat members.json | grep '"message": "Not Found"'
 GOT_QA_TEAM=$?
@@ -34,11 +34,11 @@ GOT_QA_TEAM=$?
 if [ $GOT_QA_TEAM -eq 0 ]; then
     rm members.json
     URL="https://api.github.com/orgs/$1/teams/$3/members"
-    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > members.json
+    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL -o members.json
     echo "{}" > pm_members.json
 else
     URL="https://api.github.com/orgs/$1/teams/$3/members"
-    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > pm_members.json
+    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL -o pm_members.json
 fi
 
 
