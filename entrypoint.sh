@@ -1,4 +1,19 @@
-#!/bin/sh -l
+#!/bin/bash -l
+
+# organization
+ORG="SFLScientific"
+# QA team and fallback QA team
+# get team from project name
+TEAM=$(echo "project"_$(basename $(pwd))"_qa" | tr '[:upper:]' '[:lower:]' | sed 's/-/_/g')
+echo "Team is " $TEAM
+FALLBACK_TEAM="QA"
+# project manager team
+PM_TEAM="ProjectManagers"
+
+# name of file to write to
+YAML_FILE="bot.yml"
+
+
 
 # make 2 members.json files
 function get_members(){
@@ -11,7 +26,7 @@ echo $URL
 # TODO if failed us QA as teams
 curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python -mjson.tool > /tmp/members.json
 
-cat members.json | grep '"message": "Not Found"'
+cat /tmp/members.json | grep '"message": "Not Found"'
 GOT_QA_TEAM=$?
 
 if [ $GOT_QA_TEAM -eq 0 ]; then
@@ -118,26 +133,11 @@ EOF
 }
 
 
-
-
-
-# organization
-ORG="SFLScientific"
-# QA team and fallback QA team
-# get team from project name
-TEAM=$(echo "project"_$(basename $(pwd))"_qa" | tr '[:upper:]' '[:lower:]' | sed 's/-/_/g')
-echo "Team is " $TEAM
-FALLBACK_TEAM="QA"
-# project manager team
-PM_TEAM="ProjectManagers"
-
 get_members $ORG $TEAM $FALLBACK_TEAM $PM_TEAM
 
-# name of file to write to
-YAML_FILE="bot.yml"
 
 write_yml $YAML_FILE
 
-# cleanup
-rm /tmp/members.json
-rm /tmp/pm_members.json
+
+
+
