@@ -1,0 +1,6 @@
+# action.yml
+name: 'AutoBotYamlFileSetter'
+description: "sets QA group in autobot yaml file"
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
