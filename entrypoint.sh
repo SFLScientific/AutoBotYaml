@@ -1,7 +1,7 @@
 #!/bin/bash -l
 
 GITHUB_TOKEN=$1
-echo $GITHUB_TOKEN
+echo "Token is "$GITHUB_TOKEN
 
 # organization
 ORG="SFLScientific"
@@ -97,12 +97,14 @@ end = int("$END_LINE")
 pms = set()
 with open("pm_members.json", "r") as m:
     members = json.loads(m.read())
+    print(members)
     for member in members:
         pms.add(member["login"])
 
 names = set()
 with open("members.json", "r") as m:
     members = json.loads(m.read())
+    print(members)
     for member in members:
         if member["login"] not in pms:
             names.add(member["login"])
