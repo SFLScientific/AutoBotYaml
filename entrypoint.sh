@@ -26,19 +26,19 @@ URL="https://api.github.com/orgs/$1/teams/$2/members"
 echo $URL
 
 # TODO if failed us QA as teams
-curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python -mjson.tool > /tmp/members.json
+curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python -mjson.tool > members.json
 
-cat /tmp/members.json | grep '"message": "Not Found"'
+cat members.json | grep '"message": "Not Found"'
 GOT_QA_TEAM=$?
 
 if [ $GOT_QA_TEAM -eq 0 ]; then
     rm members.json
     URL="https://api.github.com/orgs/$1/teams/$3/members"
-    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > /tmp/members.json
-    echo "{}" > /tmp/pm_members.json
+    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > members.json
+    echo "{}" > pm_members.json
 else
     URL="https://api.github.com/orgs/$1/teams/$3/members"
-    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > /tmp/pm_members.json
+    curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL | python3 -mjson.tool > pm_members.json
 fi
 
 
@@ -95,13 +95,13 @@ start = int("$START_LINE")
 end = int("$END_LINE")
 
 pms = set()
-with open("/tmp/pm_members.json", "r") as m:
+with open("pm_members.json", "r") as m:
     members = json.loads(m.read())
     for member in members:
         pms.add(member["login"])
 
 names = set()
-with open("/tmp/members.json", "r") as m:
+with open("members.json", "r") as m:
     members = json.loads(m.read())
     for member in members:
         if member["login"] not in pms:
@@ -140,6 +140,8 @@ get_members $ORG $TEAM $FALLBACK_TEAM $PM_TEAM
 
 write_yml $YAML_FILE
 
+rm members.json
+rm pm_members.json
 
 
 
