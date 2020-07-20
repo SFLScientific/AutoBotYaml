@@ -1,6 +1,10 @@
 # action.yml
 name: 'AutoBotYamlFileSetter'
 description: "sets QA group in autobot yaml file"
+inputs:
+  token:  # id of input
+    description: 'secret github token'
+    required: true
 runs:
   using: 'docker'
   image: 'Dockerfile'
