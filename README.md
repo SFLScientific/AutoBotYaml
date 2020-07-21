@@ -14,13 +14,3 @@ has parameters for
 - yml file
    - YAML_FILE="bot.yml"
 
-To set the github token used
-change this C code
-```C
-#include <stdio.h>
-int main() {
-   printf("tokenGoesHere\n");
-   return 0;
-}
-```
-and compile it to `print_token` with `gcc -o print_token print_token.c`

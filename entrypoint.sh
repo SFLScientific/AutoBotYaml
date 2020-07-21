@@ -1,7 +1,6 @@
 #!/bin/bash -l
 
 GITHUB_TOKEN=$1
-echo "Token is "$GITHUB_TOKEN
 
 # organization
 ORG="SFLScientific"
@@ -22,10 +21,6 @@ YAML_FILE=".github/auto_assign.yml"
 function get_members(){
 
 URL="https://api.github.com/orgs/$1/teams/$2/members"
-
-echo $URL
-
-# TODO if failed us QA as teams
 curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL -o members.json
 
 cat members.json | grep '"message": "Not Found"'
@@ -99,14 +94,12 @@ end = int("$END_LINE")
 pms = set()
 with open("pm_members.json", "r") as m:
     members = json.loads(m.read())
-    print(members)
     for member in members:
         pms.add(member["login"])
 
 names = set()
 with open("members.json", "r") as m:
     members = json.loads(m.read())
-    print(members)
     for member in members:
         if member["login"] not in pms:
             names.add(member["login"])
@@ -141,13 +134,8 @@ EOF
 
 get_members $ORG $TEAM $FALLBACK_TEAM $PM_TEAM
 
-cat members.json
-cat pm_members.json
-
 write_yml $YAML_FILE
 
 rm members.json
 rm pm_members.json
-
-
 
