@@ -32,8 +32,10 @@ cat members.json | grep '"message": "Not Found"'
 GOT_QA_TEAM=$?
 
 if [ $GOT_QA_TEAM -eq 0 ]; then
+    echo "Using fallback team of "$3
     rm members.json
     URL="https://api.github.com/orgs/$1/teams/$3/members"
+    echo $URL
     curl -X GET -u $GITHUB_TOKEN:x-oauth-basic $URL -o members.json
     echo "{}" > pm_members.json
 else
@@ -139,6 +141,8 @@ EOF
 
 get_members $ORG $TEAM $FALLBACK_TEAM $PM_TEAM
 
+cat members.json
+cat pm_members.json
 
 write_yml $YAML_FILE
 
