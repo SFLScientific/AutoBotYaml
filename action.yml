@@ -1,5 +1,5 @@
 # action.yml
-name: 'AutoBotYamlFileSetter'
+name: 'AutoBotYamlFileUpdater'
 description: "sets QA group in autobot yaml file"
 inputs:
   token:  # id of input
